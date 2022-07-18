@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tecnical_test_mob/models/cat_model.dart';
 import 'package:tecnical_test_mob/providers/cats_provider.dart';
 
 
@@ -19,20 +20,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final catProvider = Provider.of<CatsProvider>(context);
-    Widget catItem = ListView.builder(
-                itemCount: cats.length,
-                itemBuilder: (_, index){
-                
-                return  itemCat(
-                 cat: cats[index]);
-              });
-    
-    if (cats.length==0) {
-      catItem = const Padding(
-        padding:  EdgeInsets.all(10.0),
-        child:  Text("Presiona el icono de busqueda para consultar los gatitos"),
-      );
-    }
     
     return Scaffold(
       body: Column(
@@ -63,7 +50,15 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           Expanded(
-            child: catItem,
+            child: cats.isEmpty ?  const Padding(
+              padding:  EdgeInsets.all(10.0),
+              child:  Text("Press the search icon to consult the kittens"),
+              ) : ListView.builder(
+                itemCount: cats.length,
+                itemBuilder: (_, index){
+                return  ItemCat(
+                 cat: cats[index]);
+              }),
           ),
         ],
       ),
@@ -71,11 +66,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class itemCat extends StatelessWidget {
-  final cat;
+class ItemCat extends StatelessWidget {
+  final CatModel cat;
  
-  const itemCat({
-    Key? key, this.cat,
+  const ItemCat({
+    Key? key, required this.cat,
   }) : super(key: key);
 
   @override
@@ -104,7 +99,7 @@ class itemCat extends StatelessWidget {
                 width: 300,
                 height: 300,
                 child:
-                  Image(image: NetworkImage(cat.image.url)) ,
+                  Image(image: NetworkImage(cat.image!.url)) ,
                   
               ),
               Padding(

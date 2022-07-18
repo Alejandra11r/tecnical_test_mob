@@ -45,7 +45,7 @@ class CatsProvider extends ChangeNotifier{
 
    getCatsFilters(String filter) {
     catsFilter = [];
-    if (filter.length > 0) {
+    if (filter.isNotEmpty) {
       for (var i = 0; i < cats.length; i++) {
         if (cats[i].name == filter || cats[i].origin == filter || cats[i].intelligence.toString() == filter ) {
           catsFilter.add(cats[i]);
